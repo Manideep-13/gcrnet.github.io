@@ -1,63 +1,70 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <header class="site-header">
-
-    <!-- Logo and title -->
-	<div class="branding">
-        {% if site.avatar %}
-		<a href="{{ '/' | relative_url }}">
-			<img alt="logo img" class="avatar" src="{{ site.avatar | relative_url }}" />
-		</a>
-        {% endif %}
-
-		<h1 class="site-title">
-			<a aria-label="{{ site.title }}" href="{{ '/' | relative_url }}">
-        {{ site.title }}
-      </a>
-		</h1>
-	</div>
-
-    <!-- Toggle menu -->
-    <nav class="clear">
-    <a aria-label="pull" id="pull" class="toggle" href="#">
-    <i class="fa fa-bars fa-lg"></i>
-    </a>
-
-    <!-- Menu -->
-    <ul class="hide">
-        {% assign name_page = "" %}
-        {% for links in site.data.navigation %}
-            {% unless links.title == null or page.hide or name_page contains page.title %}
-            <li class="separator"> | </li>
-            {% if links.sublinks %}
-            <li>
-              <div class = "dropdown">
-                <button class ="dropbtn">
-                  <a class ="clear" aria-label="{{ links.title }}" title="{{ links.title }}" href="{{ links.url | relative_url }}">
-                    {% if links.icon %} <i class="fa {{ links.icon }}" aria-hidden="true"></i>
-                    {% else %}{{links.title}} <span class ="symbol">&#x25BC;</span>{% endif%}
-                  </a>
-                </button> 
-                <div class ="dropdown-content" >
-                  {% for link in links.sublinks %}
-                    <a class ="clear" aria-label="{{ link.title }}" title="{{ link.title }}" href="{{ link.url | relative_url }}">
-                      {% if link.icon %} <i class="fa {{ link.icon }}" aria-hidden="true"></i>
-                      {% else %}{{link.title}}{% endif%}
-                    </a>  
-                  {%endfor%}
-                </div>
-              </div>
-            </li>
-            {%else%}
-              <li>
-                  <a class ="clear" aria-label="{{ links.title }}" title="{{ links.title }}" href="{{ links.url | relative_url }}">
-                      {% if links.icon %} <i class="fa {{ links.icon }}" aria-hidden="true"></i>
-                      {% else %} {{ links.title }} {% endif%}
-                  </a>
-              </li>
-            {%endif%}
-            {% endunless %}
-        {% endfor %}
-        {% assign name_page = page.title | append: name_page %}
-      </ul>
-
-	</nav>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="branding">
+            {% if site.avatar %}
+                <a href="{{ '/' | relative_url }}">
+                    <img alt="logo img" class="avatar" src="{{ site.avatar | relative_url }}"/>
+                </a>
+            {% endif %}
+            <h1 class="site-title">
+                <a aria-label="{{ site.title }}" href="{{ '/' | relative_url }}">
+                    {{ site.title }}
+                </a>
+            </h1>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    {% assign name_page = "" %}
+                    {% for links in site.data.navigation %}
+                        {% unless links.title == null or page.hide or name_page contains page.title %}
+                            <li class="separator"> | </li>
+                            {% if links.sublinks %}
+                                <div class="navbar navbar-inverse">
+                                    <li class ="nav-item dropdown">
+                                        <a class ="btn" aria-label="{{ links.title }}" title="{{ links.title }}" href="{{ links.url | relative_url }}">
+                                            {% if links.icon %} <i class="fa {{ links.icon }}" aria-hidden="true"></i>
+                                            {% else %}{{links.title}}{% endif%}
+                                        </a>
+                                        <a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="btn dropdown-menu" id ="dropdown">
+                                            {% for link in links.sublinks %}
+                                                <li>
+                                                    <a class ="btn dropdown-item" aria-label="{{ link.title }}" title="{{ link.title }}" href="{{ link.url | relative_url }}">
+                                                        {% if link.icon %} <i class="fa {{ link.icon }}" aria-hidden="true"></i>
+                                                        {% else %}{{link.title}}{% endif%}
+                                                    </a> 
+                                                </li>
+                                            {%endfor%}
+                                        </ul>
+                                    </li>
+                                </div>
+                            {%else%}
+                                <div class="navbar navbar-inverse">
+                                    <li class = "nav-item">
+                                        <a class ="btn dropdown" aria-label="{{ links.title }}" title="{{ links.title }}" href="{{ links.url | relative_url }}">
+                                            {% if links.icon %} <i class="fa {{ links.icon }}" aria-hidden="true"></i>
+                                            {% else %} {{ links.title }} {% endif%}
+                                        </a>
+                                    </li>
+                                </div>
+                                {%endif%}
+                            {% endunless %}
+                        {% endfor %}
+                    {% assign name_page = page.title | append: name_page %}
+                </li>
+            </ul>
+        </div>
+    </nav>
 </header>
